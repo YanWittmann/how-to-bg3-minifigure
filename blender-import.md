@@ -11,7 +11,7 @@ In the installation directory of NinjaRipper ([see installation guide here](ripp
 
 A new option in the `Import` setting should appear: `Ninja Ripper 2 World Space`
 
-![import-model-dropdown.png](img/blender-import/model-dropdown.png)
+![The Ninja Ripper 2 World Space option in the Import setting allows users to import files from the extracted mesh directory specified in the provided chapter.](img/blender-import/model-dropdown.png)
 
 Navigate to the extracted mesh directory specified in [this chapter](ripper.md#extracting-the-game-models): `%APPDATA%\Ninja Ripper\<game-dir>\<frame-dir>`
 
@@ -23,22 +23,27 @@ Import settings:
 
 - Position: `Reprojection (Full)`
 - FOV_Y: `30` (this is the FOV you configured in the camera mode)
-- Width / Height: The size of the screen you had Baldur's Gate 3 running on when running the extraction (e.g. `2560`x`1440`px)
+- Width / Height: The size of the screen you had Baldur's Gate 3 running on when running the extraction (e.g. `2560` x `1440` px)
 - Flip Geometry: Checked
 
 Finally, click on `Import Ninja Ripper 2`.
 
-![import-configuration.png](img/blender-import/configuration.png)
+![A screenshot of a computer program displaying a list of 3D mesh files with their respective sizes and dates modified, likely used for importing 3D models into a game engine or software.](img/blender-import/configuration.png)
 
 The import may take a while.
 
 If your scene does not contain all your character meshes as seen on the following image, try the next batch of files.
 
-![import-various-scene-objects.png](img/blender-import/various-scene-objects.png)
+![A box surrounding a character is shown, which can be deleted if it represents a graphical effect of casting a spell.](img/blender-import/various-scene-objects.png)
 
-Because the photo mode camera in game becomes the origin of the scene in blender, your character should be slightly below the scene origin:
+If you were casting a spell, a box representing the graphical effect might surround your character.
+Just delete it alongside the other objects.
 
-![import-model-below-plane.png](img/blender-import/model-below-plane.png)
+![A box representing a graphical effect is shown surrounding a character, which can be deleted along with other objects.](img/blender-import/model-inside-box.png)
+
+Since the photo mode camera in game becomes the origin of the scene in blender, depending on where you positioned the camera, your character might be slightly further below or closer to the scene origin.
+
+![A 3D model of a character holding a staff, positioned below the X/Y plane in Blender's photo mode camera origin.](img/blender-import/model-below-plane.png)
 
 Simply move the model upwards until the feet are flush with the X/Y plane (`g+z`) and use the `Origin to Geometry` action to properly move the origins which will make it easier to work with later.
 
