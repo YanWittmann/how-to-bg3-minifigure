@@ -44,20 +44,36 @@ This chapter covers the manual process of converting these hollow surfaces into 
 While automated repair tools exist, they frequently destroy the specific details required for a character figure or fail to resolve the complex internal geometry of game rips.
 We will manually close gaps, merge mesh islands, and enforce manifold geometry to ensure structural integrity.
 
-## Before we start
+## Blender setup
 
-Before we start:
+- Lower the "clip start" property of the editor, since we are going to zoom in a lot (`right side > view (n) > clip start > something like 0.001m`).
+  You might also want to resize your object to be a little smaller, since 2m is not the scale you want to print it later.
+- I would recommend enabling scene statistics to see the vertices, faces and triangles.
+  Approach 1 (only shows global statistics):
 
-- resize your object to be a little smaller to avoid object culling issues later
-- right side > view (n) > clip start > something like 0.001m
-- viewport overlays > face orientation
-- join the most relevant objects into single objects (body, shield, weapon, cape) individually
-- on the individual objects, select islands that should belong together and merge vertecies by distance.
-  in my experience, you should be a bit careful with this, as you will end up merging islands that do not belong
-  together.
-  it will make your life easier and harder in some parts; maybe just try out manually selecting islands and then merging
-  vertecies, idk.
-- edit mode recalculate outside (do this every now and then on the individual models)
+  ![window-status-bar.png](img/blender-cleanup/window-status-bar.png)
+
+  ![status-bar-scene-statistics.png](img/blender-cleanup/status-bar-scene-statistics.png)
+
+  Approach 2 (also filters to selected object):
+
+  ![viewport-overlays-statistics.png](img/blender-cleanup/viewport-overlays-statistics.png)
+
+- Enable the "face orientation" viewport overlay, this will help us understand better what parts of the mesh still need fixing (`viewport overlays > face orientation`).
+
+![printing-initial-broken-mesh.png](img/blender-cleanup/printing-initial-broken-mesh.png)
+
+## Object preparation
+
+- Regarding the "face orientation", you should also recalculate the outsides of the mesh occasionally and whenever you think you have fixed a part of the mesh (`enter edit mode > recalculate outside`)
+
+  ![recalculate-outsides-face-orientation.png](img/blender-cleanup/recalculate-outsides-face-orientation.png)
+
+- Join the most relevant objects into single objects (shield, weapon, cape) in case they are split into multiple objects.
+  Do not join arbitrary objects however, since sometimes it's easier to edit objects when they are separate.
+- On the individual objects, select islands that should belong together and merge vertecies by distance.
+  In my experience, you should be a bit careful with this, as you will end up merging islands that do not belong together.
+  It will make your life easier and harder in some parts; maybe just try out manually selecting islands and then merging vertecies, idk.
 
 For each object:
 
@@ -95,7 +111,7 @@ And now time to prepare the model for 3D printing:
 - all thin or small parts, make them thicker or larger, alt+s is good for most
 - move the shoes in a way that the character stands firm on the ground, potentially make them larger to ensure good
   footing
-    - tieflings already have a resting support lol (I didn't use it though)
+    - tieflings already have a resting support lol
 - don't forget that proportional editing exists
 - edit identical islands at the same time (ctrl+l on all) with individual origins
 - and so on idk.
