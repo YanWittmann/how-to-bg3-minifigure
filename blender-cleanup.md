@@ -75,6 +75,22 @@ We will manually close gaps, merge mesh islands, and enforce manifold geometry t
   In my experience, you should be a bit careful with this, as you will end up merging islands that do not belong together.
   It will make your life easier and harder in some parts; maybe just try out manually selecting islands and then merging vertecies, idk.
 
+![printing-stage-6.png](img/printing/printing-stage-6.png)
+
+![printing-stage-8.png](img/printing/printing-stage-8.png)
+
+![cape-double-sided.png](img/blender-cleanup/cape-double-sided.png)
+
+![thickening-arm-deco-before.png](img/blender-cleanup/thickening-arm-deco-before.png)
+
+![thickening-arm-deco.png](img/blender-cleanup/thickening-arm-deco.png)
+
+![img.png](thickening-armor-flames-before.png)
+
+![img.png](thickening-armor-flames.png)
+
+![printing-stage-11.png](img/printing/printing-stage-11.png)
+
 For each object:
 
 - select individual object
@@ -109,9 +125,8 @@ Hair:
 And now time to prepare the model for 3D printing:
 
 - all thin or small parts, make them thicker or larger, alt+s is good for most
-- move the shoes in a way that the character stands firm on the ground, potentially make them larger to ensure good
-  footing
-    - tieflings already have a resting support lol
+- move the shoes in a way that the character stands firm on the ground, potentially make them larger to ensure good footing
+  - tieflings already have a resting support lol
 - don't forget that proportional editing exists
 - edit identical islands at the same time (ctrl+l on all) with individual origins
 - and so on idk.
