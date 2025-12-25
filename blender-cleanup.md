@@ -1,5 +1,10 @@
 # Print preparation in Blender
 
+- [Blender setup](#blender-setup)
+- [Object preparation](#object-preparation)
+- [Intermission: General practices](#intermission-general-practices)
+- [Cleanup](#cleanup)
+
 This is where the long, tedious part of the process starts.
 We need to ensure the model is clean for 3D printing.
 
@@ -48,6 +53,11 @@ I will sometimes provide short unlisted YouTube clips of certain tasks being per
 Keep in mind that, as with everything in this tutorial series, these are merely my personal workflows and ideas.
 I often went back to the things done in the videos and made further adjustments.
 Feel free to iterate on anything I provide you with in this guide.
+
+I recommend saving incrementally numbered or named copies of your work as backups regularly to not only avoid losing work, but also to be able to reverse destructive actions on your mesh.
+I saved mine after each individual object I repaired:
+`initial.blend`, `1.blend`, `2.blend`, `3.blend`, `4.blend`, `4b.blend`, `5.blend`, `6.blend`, `7.blend`, `8.blend`, `8b.blend`, `9.blend`, `10.blend`, `11.blend`, `12.blend`.
+This also helped for creating this guide, as I could always go back and record some section again or snap a screenshot of an earlier state.
 
 ## Blender setup
 
@@ -189,7 +199,7 @@ Since the main objective is to fill the missing faces of the objects on your cha
 - You can insert faces by selecting three or more vertices at once (`shift`) and pressing `f`.
 - If you select a single vertex and press `f`, Blender will attempt to find neighboring vertices and fill a triangular face between them, which works well on flat meshes.
 - If you select two vertices and press `f`, it will fill a quad to the next to.
-- If you hold `alt` and click on an edge, it will attempt to select all vertices in an edge loop.
+- If you hold `alt` and click on an edge, it will attempt to select all vertices in the edge loop.
   You can then press `f` and fill the entire loop at once.
 - If you have a face that is not a tri or a quad, you should triangulate the face by selecting it and pressing `ctrl+t`.
 
@@ -238,7 +248,7 @@ When scaling, it might also be interesting to set the `Transform Pivot Point > I
 
 #### Proportional scaling
 
-Next, you can press `alt+s` to scale along the normals of your mesh.
+You can press `alt+s` to scale along the normals of your mesh.
 Good for thickening objects in all directions proportionally.
 
 You should use this on small bridges in your mesh, like the legs, and horns of the creature on the staff of the image above, but also on thin parts of the mesh like clothing and armor.
@@ -268,6 +278,8 @@ After you have solidified the object with that, you can still scale it using any
 
 ### Solidify modifier
 
+> An example: https://youtu.be/W7lXes3Wpsc
+
 Even though this fits somewhere in the previous chapters, I will make it its own, because there are a few more things I want to say.
 I like working with modifiers whenever I can, since they are non-destructive meaning you can change their values any time, and they are applied to the mesh when exported automatically.
 
@@ -280,30 +292,184 @@ You cannot apply this modifier to only a selection of your object, so you might 
 The modifier will use the face normals to determine the direction in which to extend the mesh outwards.
 You might have to select an island (`ctrl+l`) and invert face normals (`Mesh > Normals > Flip`) to get it to go in the right direction.
 
-You can play around with the settings of the modifier, like the thickness or offset, but for later the `Edge Data > Crease Inner / Outer` might become relevant when we smoothen out the object.
-
-> An example: https://youtu.be/W7lXes3Wpsc
+You can play around with the settings of the modifier, like the thickness or offset, but for later the `Edge Data > Crease Inner / Outer` (`~0.9`) might become relevant when we smoothen out the object.
 
 ## Cleanup
 
 Now let's get started with actually fixing the model.
+Exporting an `.stl` file now and slicing it in your slicer software will reveal many different problems, such as layers or entire objects missing.
+Our goal is to get it to look as it does on the right side.
 
-Exporting an `.stl` file now and slicing it in your slicer software should result in something like in the image below.
-We will check in on it sometime again to see the effects of our actions.
+<img alt="printing-initial-broken-mesh.png" height="300" src="img/blender-cleanup/printing-initial-broken-mesh.png"/>
+<img alt="printing-stage-12-smoothed.png" height="300" src="img/printing/printing-stage-11.png"/>
 
-<img alt="printing-initial-broken-mesh.png" height="400" src="img/blender-cleanup/printing-initial-broken-mesh.png"/>
+We will be covering this in three passes:
+
+- Technical Repairs: Repairing the mesh by closing non-manifold geometry.
+- Aesthetic Adaptation: Tasks to make the model printable in a good way, such as thickening objects, filling hollow cylinders and more.
+- Smoothing the model by subdividing it.
+
+I like to perform the first two steps separately, as it allows me to first fix the basic errors of the mesh and then later adjust the style of the object in one go to my liking.
+You can perform them at once if you prefer.
+
+There are a few special cases, such as the shoes, cape and hair which will be covered in more detail in a chapter below.
+
+### Technical Repairs (Making it manifold)
+
+Every single step in this process is to be performed on every object individually.
+When you are done with one object, you can move on to the next object and repeat.
+
+You will always want to start by doing the following:
+
+- Select the object and use `num+/` to focus the object of interest.
+- Enter edit mode (`tab`).
+- Select all non-manifold geometry.
+  These are the parts we want to repair.
+
+The previous chapters detailed methods for how to deal with the different szenarios you can encounter.
+
+Recordings are provided with the process in Blender for several parts of the model:
+
+- Shoes: https://youtu.be/Y9rWQLaYgeI
+  - The shoes are a great example, because they show a bunch of different cases.
+  - To make it even faster: Removing the edge loops on the shoelaces could have been done with selecting all non-manifold.
+- Legs: https://youtu.be/BK_MWbFieIM
+- Torso: https://youtu.be/G6v_mSu6Fag
+  - This one is not as elegantly recoded as the others and the technique is not as refined, I'm sorry.
+    It still shows some good special cases.
+  - Similarly to the shoelaces (why do they keep coming up?), instead of using `alt+s` to make the studs on the belt thicker, I should have removed the outer edge loops and made them more cylindrical (increase depth) by extruding along normals (`alt+e`).
+    Then you can move them outwards to make them stand out more in the print.
+
+I will be covering the cape and hair later, so skip those for now.
+
+I'll list some of the szenarios here still, but keep in mind that every situation is different.
+
+<table>
+  <tr>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/simple-fill.png"/></td>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/bridge-edge-loop.png"/></td>
+  </tr>
+  <tr>
+    <td>Simply fill edge loop with face and triangulate faces.</td>
+    <td>Bridge edge loops.</td>
+  </tr>
+  <tr>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/zero-width-face.png"/></td>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/multiple-vertices-overlapped.png"/></td>
+  </tr>
+  <tr>
+    <td>(close to) plane zero-width-face: remove edge loops to make truly flat and extrude along normals.</td>
+    <td>Overlaying vertices: Merge at center.</td>
+  </tr>
+  <tr>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/complex-inner-shape.png"/></td>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/complex-inner-shape-no-easy.png"/></td>
+  </tr>
+  <tr>
+    <td>If you have a more complex edge loop on the inside of the object, it does not really matter since you will not see it from the outside. Just close the loop with a face.</td>
+    <td>Sadly it might be more complicated to close the shapes, as the normal algorithm will not properly triangulate the faces on multi-sided edge loops. You'll have to create individual faces manually.</td>
+  </tr>
+  <tr>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/inner-open-mesh-staff.png"/></td>
+    <td><img alt="img.png" height="250" src="img/blender-cleanup/cases/inner-open-mesh-staff-zoomed.png"/></td>
+  </tr>
+  <tr>
+    <td>Certain elements might look daunting at first...</td>
+    <td>...but focusing on the individual elements that are broken might reveal that it is in fact very simple to repair them. Here for example a simple <code>alt+click</code> to select the edge loop and inserting a face (<code>f</code>) that you then triangulate (<code>ctrl+t</code>) will do the trick. Repeat several times.</td>
+  </tr>
+</table>
+
+I'm sure there are plenty more, just view the videos above showing full examples or work them out for yourself.
+In the end, your mesh should not have any more vertices highlighted aside from the ones with a solidify modifier and the hair.
+
+### Aesthetic Adaptation
+
+Now that the model is _theoretically_ printable, we will have to make some more adjustments to make it look properly.
+
+Basically, whenever you have a small detail anywhere, or a loose element like a strap or a buckle, you need to exaggerate its size.
+If a leather strap is flat against the skin in the game, it might not show up at all on a print.
+If a weapon has a thin edge, it will fail to print or snap off immediately.
+
+For this, the [Scaling Objects](#scaling-objects) chapter is very relevant.
+
+- You may use `s` or `alt+s` to make elements larger.
+- Make the mesh of small parts deeper and pull them out of the model to expose them more.
+
+Now, let's look at the specific problem areas that almost every character model has.
+
+#### Filling holes
+
+Even though it's not directly visible, 
+
+#### Cape
+
+> Full process with solidification of the cape (starts at 50s): https://youtu.be/8Y6-mPcH2eg
+
+Capes in BG3 have the property that they consist of a flat plane, except at the borders where they are solid and have two layers.
+The image below shows this, where the edges have front- and back-facing faces and the center faces are exposed to both sides:
+
+<img alt="cape-double-sided.png" height="300" src="img/blender-cleanup/cape-double-sided.png"/>
+
+I really recommend watching the video above, it will make so much more sense.
+But here is a textual description with all the keybindings:
+
+- We select the full edge loop on the inside of the cape with the goal of removing the inwards facing vertices and faces.
+  - Select a first vertex, then `ctrl+click` on one a bit further away to select the shortest way between them.
+  - Repeat this until you have selected the full edge loop.
+  - Remove the selected vertices.
+  - Restore any broken geometry.
+- Depending on the cape in the game, the top part might have a larger segment with a two-sided mesh.
+  We want to remove the inside part from this too.
+  - Select one vertex or an entire row on the top.
+  - Press `num+"+"` to expand your selection to include all those vertices and add the rest manually (`shift/ctrl`).
+  - Remove the vertices.
+- Apply a Solidify modifier with a thickness of your choosing.
+
+#### Hair
+
+Game hair is usually made of flat strips of geometry with semi-transparent textures to look like strands.
+We cannot print transparency, and we cannot print flat cards.
+
+My preferred workflow for this is:
+
+- Select the hair object.
+- Add a Solidify modifier with a thickness you have to chose yourself (I picked something around `0.012 m`).
+  You want the strips to expand until they touch each other, creating a solid mass rather than individual ribbons.
+- Add a Decimate modifier to simplify the geometry again.
+  I picked `0.5` for the decimate ratio.
+
+This process will result in broken geometry pretty much no matter what you started out with.
+I never had any problems with this, as there were enough arbitrary objects in there that caused the slicer to create a surface.
+
+However, if the geometry is too broken add a Remesh > Voxel modifier.
+Set the voxel size to a very low value (e.g. `0.005 m`) but not too low for your Blender to crash.
+
+...you can also add a sphere or other shape manually to the mesh to fill in holes.
+Just saying.
+
+#### Shoes and feet
+
+> An example: https://youtu.be/0Nj2wjYYJkY
+
+Since BG3 uses inverse kinematics for the feet, the character is likely not standing fully flat on the X/Y-plane.
+We need to make sure that the feet are flat on the ground however, since it will otherwise not stand properly when printed.
+
+- Enter side view with `alt+mousewheel+drag` or by clicking the RGB 3D Axis symbol in the top right.
+- Select all objects (`a`).
+- Move the character down until the feet are _almost_ flat against the green/red axis line (`g+z`).
+- Repeat for both shoes:
+  - Zoom in very close to the bottom of the shoe, where it touches the ground.
+  - Enter edit mode (`tab`) and turn on X-Ray mode (`alt+z`).
+  - Select all the vertices that form the underside of the shoe.
+  - Scale them vertically to 0 (`s+z+0`) to flatten them.
+  - Optionally turn on proportional editing with connected geometry.
+    Pick a fitting scale.
+  - Move the vertices down to the ground.
+  - Move vertices manually where they don't look round or good in general anymore.
 
 ---
 
-![printing-stage-6.png](img/printing/printing-stage-6.png)
-
-![printing-stage-8.png](img/printing/printing-stage-8.png)
-
-![cape-double-sided.png](img/blender-cleanup/cape-double-sided.png)
-
-![printing-stage-11.png](img/printing/printing-stage-11.png)
-
-![printing-stage-12-smoothed.png](img/printing/printing-stage-12-smoothed.png)
+# Old notes for reference
 
 For each object:
 

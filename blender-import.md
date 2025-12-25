@@ -11,7 +11,7 @@ In the installation directory of NinjaRipper ([see installation guide here](ripp
 
 A new option in the `Import` setting should appear: `Ninja Ripper 2 World Space`
 
-![The Ninja Ripper 2 World Space option in the Import setting allows users to import files from the extracted mesh directory specified in the provided chapter.](img/blender-import/model-dropdown.png)
+![The Ninja Ripper 2 World Space option in the Import setting allows users to import files from the extracted mesh directory.](img/blender-import/model-dropdown.png)
 
 Navigate to the extracted mesh directory specified in [this chapter](ripper.md#extracting-the-game-models): `%APPDATA%\Ninja Ripper\<game-dir>\<frame-dir>`
 
