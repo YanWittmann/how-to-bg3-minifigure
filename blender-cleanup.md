@@ -4,6 +4,9 @@
 - [Object preparation](#object-preparation)
 - [Intermission: General practices](#intermission-general-practices)
 - [Cleanup](#cleanup)
+  - [Cleanup Phase 1: Geometry Repair](#cleanup-phase-1-geometry-repair)
+  - [Cleanup Phase 2: Structural Adaptation](#cleanup-phase-2-structuralaesthetic-adaptation)
+  - [Cleanup Phase 3: Smoothing](#cleanup-phase-3-smoothing)
 
 This is where the long, tedious part of the process starts.
 We need to ensure the model is clean for 3D printing.
@@ -56,7 +59,7 @@ Feel free to iterate on anything I provide you with in this guide.
 
 I recommend saving incrementally numbered or named copies of your work as backups regularly to not only avoid losing work, but also to be able to reverse destructive actions on your mesh.
 I saved mine after each individual object I repaired:
-`initial.blend`, `1.blend`, `2.blend`, `3.blend`, `4.blend`, `4b.blend`, `5.blend`, `6.blend`, `7.blend`, `8.blend`, `8b.blend`, `9.blend`, `10.blend`, `11.blend`, `12.blend`.
+`initial.blend`, `1.blend`, `2.blend`, ... `12.blend`.
 This also helped for creating this guide, as I could always go back and record some section again or snap a screenshot of an earlier state.
 
 ## Blender setup
@@ -157,7 +160,7 @@ All other blender shortcuts are obviously also useful, I just wanted to highligh
 
 #### Meshes
 
-- You can select islands (connected geometry) by clicking on a vertex on an island (hold shift to select even more) and press `ctrl+l` to select the entire island
+- You can select islands (connected geometry) by clicking on a vertex on an island (hold `shift` to select even more) and press `ctrl+l` to select the entire island.
 - Focusing on specific islands is easy too:
   Select the islands using the shortcut above, press `ctrl+i` and `h` to hide all other vertices.
 - Use `alt+h` to show the entire mesh again.
@@ -222,12 +225,11 @@ In general:
 Be aware that you might not always want to close objects in these ways!
 I will reference this later when you might want to select a different approach.
 
-### Scaling objects
+### Scaling and Solidifying
 
-Depending on your hardware, 3D printer settings and printing size, the print resolution may be limited to a value that is not sufficient to see all the detail of the model.
-Not only is that a problem from an aesthetic point, but also from a structural one:
+Depending on your hardware, 3D printer settings and printing size, the print resolution may be limited.
 Objects may not be large enough to be visible on the print, or are connected via bridges that are too small to actually be printed.
-There are multiple ways to ensure the mesh is okay in this regard.
+We use the following ways to fix this.
 
 <img alt="too-small-detail.png" height="200" src="img/blender-cleanup/too-small-detail.png"/>
 <img alt="too-thin-bridge.png" height="200" src="img/blender-cleanup/too-thin-bridge.png"/>
@@ -235,7 +237,7 @@ There are multiple ways to ensure the mesh is okay in this regard.
 <img alt="too-small-detail.png" height="200" src="img/blender-cleanup/too-small-detail-sliced.png"/>
 <img alt="too-thin-bridge.png" height="200" src="img/blender-cleanup/too-thin-bridge-sliced.png"/>
 
-#### Regular scaling
+#### Regular scaling (`s`)
 
 You can obviously simply scale an object using `s`, and filter for dimensions using `xyz`.
 Always remember that you can switch the `Transform Orientation > Normal` to use a more relevant coordinate system for transformations to your mesh segments.
@@ -246,7 +248,7 @@ When scaling, it might also be interesting to set the `Transform Pivot Point > I
 <img alt="transform-orientation-normal.png" src="img/blender-cleanup/transform-orientation-normal.png"/>
 <img alt="transform-pivot-point-individual-origins.png" src="img/blender-cleanup/transform-pivot-point-individual-origins.png"/>
 
-#### Proportional scaling
+#### Proportional scaling (`alt+s`)
 
 You can press `alt+s` to scale along the normals of your mesh.
 Good for thickening objects in all directions proportionally.
@@ -263,7 +265,7 @@ Here are two more before-after images:
 <img height="200" src="img/blender-cleanup/thickening-armor-flames-before.png"/>
 <img height="200" src="img/blender-cleanup/thickening-armor-flames.png"/>
 
-#### Extrude along normals
+#### Extrude along normals (`alt+e`)
 
 This is the part where I reference the previous chapter.
 Because if you use `s` or `alt+s`, sometimes in order to make a part of an object visible enough for printing it also distorts it visually too much such that it does not look good any more.
@@ -285,7 +287,7 @@ I like working with modifiers whenever I can, since they are non-destructive mea
 
 The solidify modifier works great on zero-width planes (no thickness) to make them a manifold solid.
 The result will be very similar to the `Extrude > Extrude Faces Along Normals` action, but you can change it at any time with no extra effort.
-Since you won't apply the result, Blender will still highlight the vertices as non-manifold but that is fine, as the export to `stl` will apply the modifiers.
+Since you won't apply the result, Blender will still highlight the vertices as non-manifold but that is fine, as the export to `.stl` will apply the modifiers.
 
 You cannot apply this modifier to only a selection of your object, so you might want to split the object into multiple (`Mesh > Separate > Selection`).
 
@@ -303,18 +305,14 @@ Our goal is to get it to look as it does on the right side.
 <img alt="printing-initial-broken-mesh.png" height="300" src="img/blender-cleanup/printing-initial-broken-mesh.png"/>
 <img alt="printing-stage-12-smoothed.png" height="300" src="img/printing/printing-stage-11.png"/>
 
-We will be covering this in three passes:
+This model preparation will take place in three phases, each with a chapter below.
 
-- Technical Repairs: Repairing the mesh by closing non-manifold geometry.
-- Aesthetic Adaptation: Tasks to make the model printable in a good way, such as thickening objects, filling hollow cylinders and more.
-- Smoothing the model by subdividing it.
-
-I like to perform the first two steps separately, as it allows me to first fix the basic errors of the mesh and then later adjust the style of the object in one go to my liking.
+I like to perform the first two phases separately, as it allows me to first fix the basic errors of the mesh and then later adjust the style of the object in one go to my liking.
 You can perform them at once if you prefer.
 
-There are a few special cases, such as the shoes, cape and hair which will be covered in more detail in a chapter below.
+There are a few objects representing special cases, such as the shoes, cape and hair which will be covered in more detail in a chapter below.
 
-### Technical Repairs (Making it manifold)
+## Cleanup Phase 1: Geometry Repair
 
 Every single step in this process is to be performed on every object individually.
 When you are done with one object, you can move on to the next object and repeat.
@@ -382,7 +380,7 @@ I'll list some of the szenarios here still, but keep in mind that every situatio
 I'm sure there are plenty more, just view the videos above showing full examples or work them out for yourself.
 In the end, your mesh should not have any more vertices highlighted aside from the ones with a solidify modifier and the hair.
 
-### Aesthetic Adaptation
+## Cleanup Phase 2: Structural/Aesthetic Adaptation
 
 Now that the model is _theoretically_ printable, we will have to make some more adjustments to make it look properly.
 
@@ -390,18 +388,31 @@ Basically, whenever you have a small detail anywhere, or a loose element like a 
 If a leather strap is flat against the skin in the game, it might not show up at all on a print.
 If a weapon has a thin edge, it will fail to print or snap off immediately.
 
-For this, the [Scaling Objects](#scaling-objects) chapter is very relevant.
+For this, the techniques in [General Practices: Scaling](#intermission-general-practices) are relevant.
 
 - You may use `s` or `alt+s` to make elements larger.
 - Make the mesh of small parts deeper and pull them out of the model to expose them more.
 
 Now, let's look at the specific problem areas that almost every character model has.
 
-#### Filling holes
+### Filling cylinders
 
-Even though it's not directly visible, 
+Even though it might not immediately be obvious, all clothing, shoes and armor or shoulder pieces that wrap around the body of the character are likely not filled entirely and rather form hollow cylinders.
+This makes it harder to print, as there will be the body piece like an arm of the character on the inside, a tiny spacing of air all around the arm and then the armor above that.
+Our goal is to identify and seal these gaps.
 
-#### Cape
+I propose two methods of doing so.
+
+- Either, you can simply take all the inner vertices, scale them to a single point (`s+0`) and merge them.
+  You may move them to a point in space where the connecting faces are perpendicular to the surrounding armor/clothing piece.
+  This works well for parts that are not fully closed.
+  - An example of this: https://youtu.be/r7fA2_o6JIg
+- Or, a more involved method is to remove all the inner vertices of the cylinder mesh and to close the upper and lower edge loops with a face.
+  - This example shows this for a cylinder that is open to it's side. It's usually easier if the model is not open like this: https://youtu.be/G9I1n4ZIX4A
+
+Of course, you can adapt or mix these with your own for any situation.
+
+### Cape
 
 > Full process with solidification of the cape (starts at 50s): https://youtu.be/8Y6-mPcH2eg
 
@@ -425,7 +436,7 @@ But here is a textual description with all the keybindings:
   - Remove the vertices.
 - Apply a Solidify modifier with a thickness of your choosing.
 
-#### Hair
+### Hair
 
 Game hair is usually made of flat strips of geometry with semi-transparent textures to look like strands.
 We cannot print transparency, and we cannot print flat cards.
@@ -447,7 +458,7 @@ Set the voxel size to a very low value (e.g. `0.005 m`) but not too low for your
 ...you can also add a sphere or other shape manually to the mesh to fill in holes.
 Just saying.
 
-#### Shoes and feet
+### Shoes and feet
 
 > An example: https://youtu.be/0Nj2wjYYJkY
 
@@ -467,54 +478,44 @@ We need to make sure that the feet are flat on the ground however, since it will
   - Move the vertices down to the ground.
   - Move vertices manually where they don't look round or good in general anymore.
 
+> Tieflings already have an additional resting support (lol).
+
+## Cleanup Phase 3: Smoothing
+
+> This is one of the last steps we will be performing in Blender.
+> These are destructive actions, so now is the time to save your progress and save over a new file to ensure your work is not lost.
+> Now is also a good time to check the thicknesses, etc. again.
+
+Game models are "low poly", since they use normal maps and smooth shading to appear like they have a higher resolution.
+This means, you can see the sharp edges of the polygons on curved surfaces like skin or clothing.
+
+We want the print to look smooth.
+For this, we will mainly be utilizing the `Subdivision Surface` modifier.
+However, the definition of what smooth means might differ from object to object.
+For example, you do not want to have the blade of a sword or the sharp edge of your shield to be rounded.
+
+We need to tell Blender which edges to keep sharp.
+This is where "Edge Creasing" comes into play.
+For every object in the scene that you want to have smoothed, perform the following actions:
+
+1. Select Sharp Edges
+  - Select the object and enter edit mode (`tab`).
+  - `Select > Select Sharp Edges`.
+  - Adjust the angle threshold (usually around 25°-70° depending on the object) until it selects all the hard corners but leaves the curved surfaces unselected.
+2. Apply Crease
+  - In the top right sidebar (`n`), set `Item > Transform > Edges Data > Mean Crease` to a value between `0.8` to `1.0` depending on what kind of style you want.
+3. Subdivide
+  - Go to Modifiers and add a Subdivision Surface modifier.
+  - Set viewport and rendered levels to 1, 2 or 3.
+
+The armor plates should stay sharp, but the curved surfaces between them should be smoothed out.
+If you realize that the mesh is still too flat in some places, you can pull them out to force a sharp edge.
+
+> Here is an example where I go over several objects in the scene: https://youtu.be/_NiRAaBzoGg  
+> Please keep in mind that I changed a bunch more after this, adjusted the values and crease further.
+> This is an iterative process.
+
 ---
 
-# Old notes for reference
-
-For each object:
-
-- select individual object
-- ctrl+i, h, numpad delete to focus on object
-- enter edit mode
-
-To select all islands that have non manifold geometry:
-
-- "select" > "by trait" > "non manifold" (this is what we are after)
-- ctrl+l, ctrl+i, h
-
-If you have islands that you would not expect to connect:
-
-- select one island, ctrl-click on the other --> shortest path between
-
-To quickly fill an entire area either of the area type:
-
-- large area surrounded by a clear edge boundary: alt-click on the edge and press f --> triangulate faces (ctrl+t)
-- small irregular portions: click one (smart, order matters) or three (explicit) vertecies and press f
-- bridge edge loops
-
-If you work in a tight space, you can always hide one half of the model to view the inside of the other
-
-Hair:
-
-- solidify (choose value yourself)
-- decimate (around .5)
-- save before applying
-- apply both
-- it does not matter if you have non-manifold here, it's going to be dense enough anyways
-
-And now time to prepare the model for 3D printing:
-
-- all thin or small parts, make them thicker or larger, alt+s is good for most
-- move the shoes in a way that the character stands firm on the ground, potentially make them larger to ensure good footing
-  - tieflings already have a resting support lol
-- don't forget that proportional editing exists
-- edit identical islands at the same time (ctrl+l on all) with individual origins
-- and so on idk.
-
-Smoothen out certain parts:
-
-- you can select the object you want to have subdivided to be smoother and enter edit mode
-- select > sharp edges > 25° (depends on the model)
-- right side > Item > Edges Data > Mean Crease > 1.0
-- object mode add subdivision modifier (1, 2, 3 levels idk)
-- apply (maybe only later when you really need it)
+Your model should now be ready for printing.
+Observing the model in the slicer will reveal additional things you have to change in the model, this happened to me a lot.
