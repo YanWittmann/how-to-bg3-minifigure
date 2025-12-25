@@ -44,36 +44,212 @@ This chapter covers the manual process of converting these hollow surfaces into 
 While automated repair tools exist, they frequently destroy the specific details required for a character figure or fail to resolve the complex internal geometry of game rips.
 We will manually close gaps, merge mesh islands, and enforce manifold geometry to ensure structural integrity.
 
+I will sometimes provide short unlisted YouTube clips of certain tasks being performed in blender.
+Keep in mind that, as with everything in this tutorial series, these are merely my personal workflows and ideas.
+I often went back to the things done in the videos and made further adjustments.
+Feel free to iterate on anything I provide you with in this guide.
+
 ## Blender setup
 
-- Lower the "clip start" property of the editor, since we are going to zoom in a lot (`right side > view (n) > clip start > something like 0.001m`).
-  You might also want to resize your object to be a little smaller, since 2m is not the scale you want to print it later.
-- I would recommend enabling scene statistics to see the vertices, faces and triangles.
-  Approach 1 (only shows global statistics):
+Let's enable a few viewport settings that will make our lives easier later.
 
-  ![window-status-bar.png](img/blender-cleanup/window-status-bar.png)
+### Clip Start
 
-  ![status-bar-scene-statistics.png](img/blender-cleanup/status-bar-scene-statistics.png)
+Lower the "clip start" property of the editor, since we are going to zoom in a lot (`right side > view (n) > clip start > something like 0.001m`).
 
-  Approach 2 (also filters to selected object):
+### Scene Statistics
 
-  ![viewport-overlays-statistics.png](img/blender-cleanup/viewport-overlays-statistics.png)
+I would recommend enabling scene statistics to see the vertices, faces and triangles.
 
-- Enable the "face orientation" viewport overlay, this will help us understand better what parts of the mesh still need fixing (`viewport overlays > face orientation`).
+<table>
+<tbody>
+<tr>
+  <td>
+    <img alt="window-status-bar.png" src="img/blender-cleanup/window-status-bar.png"/>
+    <img alt="status-bar-scene-statistics.png" src="img/blender-cleanup/status-bar-scene-statistics.png"/>
+  </td>
+  <td><img alt="viewport-overlays-statistics.png" src="img/blender-cleanup/viewport-overlays-statistics.png"/></td>
+</tr>
+<tr>
+<td>Approach 1 (<code>Window > Show Status Bar</code>, <code>Status Bar Right Click > Scene Statistics</code>) (only shows global statistics).</td>
+<td>Approach 2 (<code>Viewport Overlays > Statistics</code>) (also filters to selected object).</td>
+</tr>
+</tbody>
+</table>
 
-![printing-initial-broken-mesh.png](img/blender-cleanup/printing-initial-broken-mesh.png)
+### Face orientation
+
+Enable the "face orientation" viewport overlay, this will help us understand better what parts of the mesh still need fixing (`viewport overlays > face orientation`).
+
+In case you find the color of the backwards facing material too intensely red, you can configure a custom color in `Preferences > Themes > 3D Viewport > Face Orientation Back`.
+
+<img alt="preferences-face-orientation-back.png" height="400" src="img/blender-cleanup/preferences-face-orientation-back.png"/>
 
 ## Object preparation
 
-- Regarding the "face orientation", you should also recalculate the outsides of the mesh occasionally and whenever you think you have fixed a part of the mesh (`enter edit mode > recalculate outside`)
+### Take inventory of the objects
 
-  ![recalculate-outsides-face-orientation.png](img/blender-cleanup/recalculate-outsides-face-orientation.png)
+Each individual object _may be_ overlayed by several copies of itself that the game uses for visual effects.
+Remove the copies of the objects.
+Since they are all identical, it does not matter which of the ones you keep.
+Additionally, there may be empty objects with no mesh data, remove them as well.
 
-- Join the most relevant objects into single objects (shield, weapon, cape) in case they are split into multiple objects.
-  Do not join arbitrary objects however, since sometimes it's easier to edit objects when they are separate.
-- On the individual objects, select islands that should belong together and merge vertecies by distance.
-  In my experience, you should be a bit careful with this, as you will end up merging islands that do not belong together.
-  It will make your life easier and harder in some parts; maybe just try out manually selecting islands and then merging vertecies, idk.
+Then, rename all your body parts to more easily identify them later.
+
+![meshes-renamed.png](img/blender-import/meshes-renamed.png)
+
+### Join objects
+
+You _might want_ to join the most relevant objects into single objects (shield, weapon, cape).
+But at the same time, it might be easier to edit individual objects later on, this clearly depends on the character and accessories.
+You decide what makes the most sense to you and whether you might defer this until later.
+
+### Merge overlaying vertices
+
+> In action: https://youtu.be/r6ea8ANrplY
+
+Objects are commonly split up into multiple meshes with overlapping vertices and edges.
+For this, select all objects (`a`), enter edit mode (`tab`), select all vertices (`a`) and use the `Mesh > Clean Up > Merge by Distance` action.
+
+### Shade flat
+
+We will be covering how to smoothen your model later on in more detail, but for editing the mesh it is more useful to directly see the faces as they are.
+So, select all objects and `Right Click > Shade Flat`.
+
+## Intermission: General practices
+
+Before we get started cleaning up the model:
+There are some tips and tricks and shortcuts in blender we will be using very commonly later, so I'll discuss them here once at the start.
+
+By the way, whenever you want to run an action and don't know where to find it, you can press `F3` and simply enter its name.
+Not only is this a shortcut for all actions, it also shows where to find them and what shortcut is assigned to them.
+
+### Navigating the scene
+
+#### Objects
+
+> Showing some of the shortcuts in action: https://youtu.be/g_-OnZa03ZI
+
+- Select an object or a set of vertices and press `num-delete` to zoom in on the items.
+  This will also reset your camera zoom level to match the selected object scale, which can be very useful if your camera is too far zoomed in, and you cannot move it well anymore.
+- Select an object and press `num-slash` to focus on the object and hide all others.
+  Your camera position will be saved and returned to when you press the key again.
+- `ctrl+mouse wheel press` for zooming in and out smoothly without steps is useful for zooming on small scales when one step would zoom over multiple layers of the mesh.
+- `alt+z` is to enable x-ray mode to allow seeing through objects.
+  This is immensely useful in combination with the "select non-manifold geometry" action.
+
+In case you don't have a numpad, I would recommend reconfiguring those shortcuts.
+All other blender shortcuts are obviously also useful, I just wanted to highlight my personal most important ones.
+
+#### Meshes
+
+- You can select islands (connected geometry) by clicking on a vertex on an island (hold shift to select even more) and press `ctrl+l` to select the entire island
+- Focusing on specific islands is easy too:
+  Select the islands using the shortcut above, press `ctrl+i` and `h` to hide all other vertices.
+- Use `alt+h` to show the entire mesh again.
+
+### Selecting non-manifold geometry
+
+This is going to be one of the main actions we will be running all the time.
+Our goal for each individual object is to have no more vertices highlighted by this action.
+
+The action is `Select > Select All by Trait > Non Manifold`.
+I manually set the shortcut to `ctrl+shift+g` since I used it this often.
+
+<img alt="selecting-non-manifold.png" height="300" src="img/blender-cleanup/selecting-non-manifold.png"/>
+
+In combination with the `ctrl+l`, `ctrl+i` and `h` shortcuts, this allows you to very quickly select all parts of the mesh that still need your attention and hide all others.
+
+### Face orientation
+
+> Fixing non-manifold by recalculating face orientation: https://youtu.be/DDzGjyC__e8
+
+Remember that you activated the "face orientation" viewport overlay earlier.
+Sometimes all it takes to make a mesh manifold is to recalculate the mesh normals.
+The action is `Mesh > Normals > Recalculate Outside` or just `Shift+N`.
+
+You can do this once now before you start working on the actual cleanup by selecting all objects and entering edit mode.
+This will likely already remove a lot of the red surface from your mesh.
+
+But most importantly:
+whenever you made a change to the mesh that closes an object and you have the feeling that the outside calculation should now be working fine again, you should once again run this action and you will see that the colors correct themselves.
+
+<img alt="recalculate-outsides-face-orientation.png" height="400" src="img/blender-cleanup/recalculate-outsides-face-orientation.png"/>
+
+### Closing objects
+
+Since the main objective is to fill the missing faces of the objects on your character, we should discuss multiple ways you can do so quickly.
+
+- You can insert faces by selecting three or more vertices at once (`shift`) and pressing `f`.
+- If you select a single vertex and press `f`, Blender will attempt to find neighboring vertices and fill a triangular face between them, which works well on flat meshes.
+- If you select two vertices and press `f`, it will fill a quad to the next to.
+- If you hold `alt` and click on an edge, it will attempt to select all vertices in an edge loop.
+  You can then press `f` and fill the entire loop at once.
+- If you have a face that is not a tri or a quad, you should triangulate the face by selecting it and pressing `ctrl+t`.
+
+> All this in a quick video: https://youtu.be/xbxgMpQY6uY
+
+Since a property open geometry is that it is non-manifold, you can often very easily select these vertices using the action/shortcut named above, press `f` and `ctrl+t` and you are done.
+
+> Using non-manifold selection: https://youtu.be/2jvjCddpQF0
+
+But be aware that you might not always want to close objects this way!
+The next chapter shows why.
+
+### Scaling objects
+
+Depending on your hardware, 3D printer settings and printing size, the print resolution may be limited to a value that is not sufficient to see all the detail of the model.
+Not only is that a problem from an aesthetic point, but also from a structural one:
+Objects may not be large enough to be visible on the print, or are connected via bridges that are too small to actually be printed.
+There are multiple ways to ensure the mesh is okay in this regard.
+
+<img alt="too-small-detail.png" height="200" src="img/blender-cleanup/too-small-detail.png"/>
+<img alt="too-thin-bridge.png" height="200" src="img/blender-cleanup/too-thin-bridge.png"/>
+
+<img alt="too-small-detail.png" height="200" src="img/blender-cleanup/too-small-detail-sliced.png"/>
+<img alt="too-thin-bridge.png" height="200" src="img/blender-cleanup/too-thin-bridge-sliced.png"/>
+
+#### Regular scaling
+
+You can obviously simply scale an object using `s`, and filter for dimensions using `xyz`.
+Always remember that you can switch the `Transform Orientation > Normal` to use a more relevant coordinate system for transformations to your mesh segments.
+You don't have to switch back to global to get its coordinate system, simply hit `xyz` twice and you will get the global alignment lines.
+
+When scaling, it might also be interesting to set the `Transform Pivot Point > Individual Origins` since you can scale multiple islands or objects at once as if you scaled them individually.
+
+<img alt="transform-orientation-normal.png" src="img/blender-cleanup/transform-orientation-normal.png"/>
+<img alt="transform-pivot-point-individual-origins.png" src="img/blender-cleanup/transform-pivot-point-individual-origins.png"/>
+
+#### Proportional scaling
+
+Next, you can press `alt+s` to scale along the normals of your mesh.
+Good for thickening objects in all directions proportionally.
+
+You should use this on small bridges in your mesh, like the legs, and horns of the creature on the staff of the image above, but also on thin parts of the mesh like clothing.
+
+> Here are two examples for this: https://youtu.be/qRBrq-bey44 (general use), https://youtu.be/_n7-2iu2wSE (cloth)
+
+#### Extrude along normals
+
+This is the part where I reference the previous chapter.
+Because if you use `s` or `alt+s`, sometimes in order to make a part of an object visible enough for printing it also distorts it visually too much such that it does not look good any more.
+For this reason, you might want to consider the following situation:
+
+You have a non-manifold "broken" mesh that is a plane with no thickness or you can easily get to this situation by removing one or two edge loops.
+In this case, you can select all vertices of the mesh and use `alt+e` to `Extrude > Extrude Faces Along Normals`.
+
+After you have solidified the object with that, you can still scale it using any of the operations above.
+
+## Cleanup
+
+Now let's get started with actually fixing the model.
+
+Exporting an `.stl` file now and slicing it in your slicer software should result in something like in the image below.
+We will check in on it sometime again to see the effects of our actions.
+
+<img alt="printing-initial-broken-mesh.png" height="400" src="img/blender-cleanup/printing-initial-broken-mesh.png"/>
+
+---
 
 ![printing-stage-6.png](img/printing/printing-stage-6.png)
 
@@ -90,6 +266,8 @@ We will manually close gaps, merge mesh islands, and enforce manifold geometry t
 ![img.png](thickening-armor-flames.png)
 
 ![printing-stage-11.png](img/printing/printing-stage-11.png)
+
+![printing-stage-12-smoothed.png](img/printing/printing-stage-12-smoothed.png)
 
 For each object:
 
