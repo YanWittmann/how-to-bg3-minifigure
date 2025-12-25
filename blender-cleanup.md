@@ -1,4 +1,4 @@
-# Print preparation in Blender
+# Chapter 3: Print preparation in Blender
 
 [< Blender Import](blender-import.md) &bullet; [Main Page](readme.md) &bullet; [Printing >](printing.md)
 

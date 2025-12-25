@@ -1,4 +1,4 @@
-# 3D Printing
+# Chapter 4: 3D Printing
 
 [< Blender Cleanup](blender-cleanup.md) &bullet; [Main Page](readme.md)
 
