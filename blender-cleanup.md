@@ -106,10 +106,14 @@ You decide what makes the most sense to you and whether you might defer this unt
 
 ### Merge overlaying vertices
 
-> In action: https://youtu.be/r6ea8ANrplY
-
 Objects are commonly split up into multiple meshes with overlapping vertices and edges.
 For this, select all objects (`a`), enter edit mode (`tab`), select all vertices (`a`) and use the `Mesh > Clean Up > Merge by Distance` action.
+
+> In action: https://youtu.be/r6ea8ANrplY
+
+You can also always merge vertices manually by selecting all you want to merge and using `Mesh > Merge > At Center`.
+
+> Example: https://youtu.be/ctSYTmjMp4w
 
 ### Shade flat
 
@@ -180,6 +184,8 @@ whenever you made a change to the mesh that closes an object and you have the fe
 
 Since the main objective is to fill the missing faces of the objects on your character, we should discuss multiple ways you can do so quickly.
 
+#### Face filling and triangulation
+
 - You can insert faces by selecting three or more vertices at once (`shift`) and pressing `f`.
 - If you select a single vertex and press `f`, Blender will attempt to find neighboring vertices and fill a triangular face between them, which works well on flat meshes.
 - If you select two vertices and press `f`, it will fill a quad to the next to.
@@ -187,14 +193,24 @@ Since the main objective is to fill the missing faces of the objects on your cha
   You can then press `f` and fill the entire loop at once.
 - If you have a face that is not a tri or a quad, you should triangulate the face by selecting it and pressing `ctrl+t`.
 
-> All this in a quick video: https://youtu.be/xbxgMpQY6uY
+> Examples: https://youtu.be/xbxgMpQY6uY (all techniques shown), https://youtu.be/wC2IYVu5dPI (filling inner faces quickly)
+
+#### Use Non-Manifold selection
 
 Since a property open geometry is that it is non-manifold, you can often very easily select these vertices using the action/shortcut named above, press `f` and `ctrl+t` and you are done.
 
 > Using non-manifold selection: https://youtu.be/2jvjCddpQF0
 
-But be aware that you might not always want to close objects this way!
-The next chapter shows why.
+#### Bridge edge loops
+
+You can also use the `Bridge > Bridge Edge Loops` action to fill two related opposed edge loops.
+Just watch the video below, it's easier to explain this way.
+
+> Shoes: https://youtu.be/T8iPffmihRQ
+
+In general:
+Be aware that you might not always want to close objects in these ways!
+I will reference this later when you might want to select a different approach.
 
 ### Scaling objects
 
@@ -225,9 +241,17 @@ When scaling, it might also be interesting to set the `Transform Pivot Point > I
 Next, you can press `alt+s` to scale along the normals of your mesh.
 Good for thickening objects in all directions proportionally.
 
-You should use this on small bridges in your mesh, like the legs, and horns of the creature on the staff of the image above, but also on thin parts of the mesh like clothing.
+You should use this on small bridges in your mesh, like the legs, and horns of the creature on the staff of the image above, but also on thin parts of the mesh like clothing and armor.
 
 > Here are two examples for this: https://youtu.be/qRBrq-bey44 (general use), https://youtu.be/_n7-2iu2wSE (cloth)
+
+Here are two more before-after images:
+
+<img height="200" src="img/blender-cleanup/thickening-arm-deco-before.png"/>
+<img height="200" src="img/blender-cleanup/thickening-arm-deco.png"/>
+
+<img height="200" src="img/blender-cleanup/thickening-armor-flames-before.png"/>
+<img height="200" src="img/blender-cleanup/thickening-armor-flames.png"/>
 
 #### Extrude along normals
 
@@ -239,6 +263,26 @@ You have a non-manifold "broken" mesh that is a plane with no thickness or you c
 In this case, you can select all vertices of the mesh and use `alt+e` to `Extrude > Extrude Faces Along Normals`.
 
 After you have solidified the object with that, you can still scale it using any of the operations above.
+
+> Examples: https://youtu.be/dK3EQI8BgZw (shoelaces), https://youtu.be/5lmI7rAC3vg (spikes, I would extrude them even further than that and scale them along normals a bunch)
+
+### Solidify modifier
+
+Even though this fits somewhere in the previous chapters, I will make it its own, because there are a few more things I want to say.
+I like working with modifiers whenever I can, since they are non-destructive meaning you can change their values any time, and they are applied to the mesh when exported automatically.
+
+The solidify modifier works great on zero-width planes (no thickness) to make them a manifold solid.
+The result will be very similar to the `Extrude > Extrude Faces Along Normals` action, but you can change it at any time with no extra effort.
+Since you won't apply the result, Blender will still highlight the vertices as non-manifold but that is fine, as the export to `stl` will apply the modifiers.
+
+You cannot apply this modifier to only a selection of your object, so you might want to split the object into multiple (`Mesh > Separate > Selection`).
+
+The modifier will use the face normals to determine the direction in which to extend the mesh outwards.
+You might have to select an island (`ctrl+l`) and invert face normals (`Mesh > Normals > Flip`) to get it to go in the right direction.
+
+You can play around with the settings of the modifier, like the thickness or offset, but for later the `Edge Data > Crease Inner / Outer` might become relevant when we smoothen out the object.
+
+> An example: https://youtu.be/W7lXes3Wpsc
 
 ## Cleanup
 
@@ -256,14 +300,6 @@ We will check in on it sometime again to see the effects of our actions.
 ![printing-stage-8.png](img/printing/printing-stage-8.png)
 
 ![cape-double-sided.png](img/blender-cleanup/cape-double-sided.png)
-
-![thickening-arm-deco-before.png](img/blender-cleanup/thickening-arm-deco-before.png)
-
-![thickening-arm-deco.png](img/blender-cleanup/thickening-arm-deco.png)
-
-![img.png](thickening-armor-flames-before.png)
-
-![img.png](thickening-armor-flames.png)
 
 ![printing-stage-11.png](img/printing/printing-stage-11.png)
 
