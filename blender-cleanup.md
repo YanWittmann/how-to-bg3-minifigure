@@ -1,5 +1,7 @@
 # Print preparation in Blender
 
+[< Blender Import](blender-import.md) &bullet; [Main Page](readme.md) &bullet; [Printing >](printing.md)
+
 - [Blender setup](#blender-setup)
 - [Object preparation](#object-preparation)
 - [Intermission: General practices](#intermission-general-practices)
@@ -519,3 +521,5 @@ If you realize that the mesh is still too flat in some places, you can pull them
 
 Your model should now be ready for printing.
 Observing the model in the slicer will reveal additional things you have to change in the model, this happened to me a lot.
+
+[< Blender Import](blender-import.md) &bullet; [Main Page](readme.md) &bullet; [Printing >](printing.md)

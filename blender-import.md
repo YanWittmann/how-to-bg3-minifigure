@@ -1,5 +1,7 @@
 # Print preparation in Blender
 
+[< Model Extraction](ripper.md) &bullet; [Main Page](readme.md) &bullet; [Blender Cleanup >](blender-cleanup.md)
+
 ## Installing NinjaRipper Import Plugin
 
 In the installation directory of NinjaRipper ([see installation guide here](ripper.md#installing-ninjaripper), e.g. `C:\Program Files (x86)\Ninja Ripper 2.8\bin64\importers`), you can find a file `io_import_nr.zip` that you can import into blender as a plugin (Preferences > Add-ons > Install).
@@ -46,3 +48,7 @@ Since the photo mode camera in game becomes the origin of the scene in blender, 
 ![A 3D model of a character holding a staff, positioned below the X/Y plane in Blender's photo mode camera origin.](img/blender-import/model-below-plane.png)
 
 Simply move the model upwards until the feet are flush with the X/Y plane (`g+z`) and use the `Origin to Geometry` action to properly move the origins which will make it easier to work with later.
+
+---
+
+[< Model Extraction](ripper.md) &bullet; [Main Page](readme.md) &bullet; [Blender Cleanup >](blender-cleanup.md)

@@ -1,5 +1,7 @@
 # 3D Printing
 
+[< Blender Cleanup](blender-cleanup.md) &bullet; [Main Page](readme.md)
+
 We are almost there.
 You should now have a collection of objects that are:
 
@@ -52,3 +54,7 @@ Well, and then it is time to print the model.
 
 I'm actually still waiting for the printer to finish.
 I will update this later.
+
+---
+
+[< Blender Cleanup](blender-cleanup.md) &bullet; [Main Page](readme.md)

@@ -1,34 +1,55 @@
-# 3D Printing BG3 Minifigures
+# Guide: 3D Print a Custom Baldur's Gate 3 Character
 
-Work in progress.
-Only tested for Windows 10.
+<table>
+<tbody>
+    <tr>
+        <td><img height="350" src="img/result/printed-1.png" alt="3D printed Tiefling character"></td>
+        <td><img height="350" src="img/result/printed-2.png" alt="3D printed Bard character"></td>
+    </tr>
+</tbody>
+</table>
 
-This guide will assume that you have Baldur's Gate 3 and Blender installed.
-Further, basic knowledge of using Blender is expected.
+## Project Overview
 
-If you do print the model by yourself at home, you will also need a 3D printer, and it's slicing software.
+This repository contains a guide for extracting custom character models (including equipment and pose) from Baldur's Gate 3, converting the geometry into manifold meshes, and preparing them for 3D printing.
 
-You should be warned that following this guide through to a printed model is neither easy nor quick.
-Figuring out these steps took me well over 20 hours the first time, I will update this how long it takes me on my second go when I'm done with it.
+Users should be advised that the transition from a game asset to a printable object involves significant manual labor during the repair phase. Initial attempts may require 10+ hours of cleanup; subsequent attempts typically reduce to 3 or fewer hours once the workflow is understood.
 
-![A white 3D printed model of a fantasy character, featuring horns and holding a spiked club, is displayed on a windowsill.](img/result/printed-1.png)
+#### Disclaimer
 
-![A white 3D printed figurine of a female warrior, holding a harp and shield, stands on a windowsill.](img/result/printed-2.png)
+This guide is intended for personal use and educational purposes only.
+All game assets remain the intellectual property of Larian Studios.
+Do not redistribute extracted 3D files or sell prints derived from game assets.
 
-## Obtaining the 3D Model
+## Prerequisites
 
-[ripper.md](ripper.md)
+Successful execution of this guide requires the following software and hardware.
 
-## Print preparation in Blender
+- Windows PC
+- Baldur's Gate 3 (Larian Studios)
+- Ninja Ripper (covered in this tutorial, or bring your own equivalent tool)
+- Blender 3.0 or higher
+- 3D Printer
+- Slicing Software (PrusaSlicer, Cura, Chitubox, Lychee, etc.)
 
-- [blender-import.md](blender-import.md)
-- [blender-cleanup.md](blender-cleanup.md)
+## Guide Phases
 
-## Printing the model
+Follow the documentation in the specific order listed below.
 
-[printing.md](printing.md)
+|                                                                                                                                       | Phase                                 | Description                                                                                     |
+|---------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------|:------------------------------------------------------------------------------------------------|
+| [<img alt="character-preparation.png" height="75" src="img/ripper/character-preparation.png"/>](ripper.md)                            | [Model Extraction](ripper.md)         | Inject an extraction tool into the running BG3 process to capture player character geometry.    |
+| [<img alt="character-preparation.png" height="75" src="img/blender-import/model-inside-box.png"/>](blender-import.md)                 | [Blender Import](blender-import.md)   | Import the raw mesh data into Blender, cleaning the model, and organizing the mesh islands.     |
+| [<img alt="character-preparation.png" height="75" src="img/blender-cleanup/thickening-armor-flames-before.png"/>](blender-cleanup.md) | [Blender Cleanup](blender-cleanup.md) | The core manual process of non-manifold repair, thickening surfaces, smoothening and remeshing. |
+| [<img alt="character-preparation.png" height="75" src="img/printing/printing-stage-11.png"/>](printing.md)                            | [3D Printing](printing.md)            | Slicing the model and printing it on a 3D printer.                                              |
 
-## Further info
+## Reference Directories
+
+Use these paths to locate necessary files on your system.
 
 - Save file location: `%localappdata%\Larian Studios\Baldur's Gate 3\PlayerProfiles\Public\Savegames\Story`
 - Extracted model dir: `%APPDATA%\Ninja Ripper`
+
+---
+
+[Begin Guide >](ripper.md)

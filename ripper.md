@@ -1,14 +1,14 @@
 > [!IMPORTANT]
-> The author of this guide is not affiliated with NinjaRipper.
-
----
+> The author of this guide is not affiliated with "NinjaRipper".
 
 > [!CAUTION]
-> Attention: the program \[NinjaRipper] is intended only for research of the places of the levels of games located "behind" the camera and does not pursue the goal of piracy.
+> Attention: the program "NinjaRipper" is intended only for research of the places of the levels of games located "behind" the camera and does not pursue the goal of piracy.
 
 ---
 
 # Obtaining the 3D Model
+
+[Main Page](readme.md) &bullet; [Blender Import >](blender-import.md)
 
 ## Installing NinjaRipper
 
@@ -107,3 +107,7 @@ Enter the directory named similar to `2025.12.10_17.46.28_bg3_dx11.exe_2888` or 
 Each new extraction will create a new `frame_n` directory.
 
 In this, you will have a directory full of numbered files like `mesh_148.nr` that contain the meshes of the models that were loaded in the game.
+
+---
+
+[Main Page](readme.md) &bullet; [Blender Import >](blender-import.md)
