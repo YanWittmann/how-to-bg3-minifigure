@@ -1,19 +1,18 @@
 # Guide: 3D Print a Custom Baldur's Gate 3 Character
 
+This repository contains a guide for extracting custom character models (including equipment and pose) from Baldur's Gate 3, converting the geometry into manifold meshes, and preparing them for 3D printing.
+
+Users should be advised that the transition from a game asset to a printable object involves significant manual labor during the repair phase.
+My initial attempts required 10+ hours of cleanup; my second attempts reduced this to 3 and I'm sure I could do it even faster now.
+
 <table>
 <tbody>
     <tr>
-        <td><img height="350" src="img/result/printed-1.png" alt="3D printed Tiefling character"></td>
-        <td><img height="350" src="img/result/printed-2.png" alt="3D printed Bard character"></td>
+        <td><img height="400" src="img/result/printed-ramie-1.png" alt="3D printed Tiefling character"></td>
+        <td><img height="400" src="img/result/printed-t-1.png" alt="3D printed Bard character"></td>
     </tr>
 </tbody>
 </table>
-
-## Project Overview
-
-This repository contains a guide for extracting custom character models (including equipment and pose) from Baldur's Gate 3, converting the geometry into manifold meshes, and preparing them for 3D printing.
-
-Users should be advised that the transition from a game asset to a printable object involves significant manual labor during the repair phase. Initial attempts may require 10+ hours of cleanup; subsequent attempts typically reduce to 3 or fewer hours once the workflow is understood.
 
 #### Disclaimer
 
@@ -21,9 +20,13 @@ This guide is intended for personal use and educational purposes only.
 All game assets remain the intellectual property of Larian Studios.
 Do not redistribute extracted 3D files or sell prints derived from game assets.
 
+This guide was created as personal research notes while I was figuring out how to print my characters.
+Feel free to adapt and modify any steps you have more knowledge or other ideas in.
+And please, open up an issue with your printed models if you end up using this guide, I'd love to see them!
+
 ## Prerequisites
 
-Successful execution of this guide requires the following software and hardware.
+Execution of this guide requires the following software and hardware.
 
 - Windows PC
 - Baldur's Gate 3 (Larian Studios)
@@ -47,8 +50,8 @@ Follow the documentation in the specific order listed below.
 
 Use these paths to locate necessary files on your system.
 
-- Save file location: `%localappdata%\Larian Studios\Baldur's Gate 3\PlayerProfiles\Public\Savegames\Story`
-- Extracted model dir: `%APPDATA%\Ninja Ripper`
+- BG3 Save Files: `%localappdata%\Larian Studios\Baldur's Gate 3\PlayerProfiles\Public\Savegames\Story`
+- Extracted Models: `%APPDATA%\Ninja Ripper`
 
 ---
 
