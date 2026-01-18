@@ -2,17 +2,35 @@
 
 This repository contains a guide for extracting custom character models (including equipment and pose) from Baldur's Gate 3, converting the geometry into manifold meshes, and preparing them for 3D printing.
 
-Users should be advised that the transition from a game asset to a printable object involves significant manual labor during the repair phase.
-My initial attempts required 10+ hours of cleanup; my second attempts reduced this to 3 and I'm sure I could do it even faster now.
+You should know that the transition from a game asset to a printable object involves significant manual work.
+My initial attempt required 10+ hours of cleanup, my second attempts reduced this to 3, but I'm sure I could do it even faster now.
+Painting the model is an optional step that took me another ~20h on my character.
 
 <table>
 <tbody>
     <tr>
-        <td><img height="400" src="img/result/printed-ramie-1.png" alt="3D printed Tiefling character"></td>
+        <td><img height="440" src="img/painting/finished-2.jpg" alt="3D printed and painted Tiefling character"></td>
         <td><img height="400" src="img/result/printed-t-1.png" alt="3D printed Bard character"></td>
     </tr>
 </tbody>
 </table>
+
+<details>
+
+<summary>[Expand] view reference images of Ramie, the Druid Tiefling in-game.</summary>
+
+<table>
+<tbody>
+    <tr>
+        <td><img src="img/painting/ramie-ref-1.jpg" alt="3D printed Tiefling character"></td>
+        <td><img src="img/result/ingame-1.png" alt="3D printed Bard character"></td>
+    </tr>
+</tbody>
+</table>
+
+More reference images can be found on the painting chapter.
+
+</details>
 
 #### Disclaimer
 
@@ -45,6 +63,7 @@ Follow the documentation in the specific order listed below.
 | [<img alt="character-preparation.png" height="75" src="img/blender-import/model-inside-box.png"/>](blender-import.md)                 | [Blender Import](blender-import.md)   | Import the raw mesh data into Blender, cleaning the model, and organizing the mesh islands.     |
 | [<img alt="character-preparation.png" height="75" src="img/blender-cleanup/thickening-armor-flames-before.png"/>](blender-cleanup.md) | [Blender Cleanup](blender-cleanup.md) | The core manual process of non-manifold repair, thickening surfaces, smoothening and remeshing. |
 | [<img alt="character-preparation.png" height="75" src="img/printing/printing-stage-11.png"/>](printing.md)                            | [3D Printing](printing.md)            | Slicing the model and printing it on a 3D printer.                                              |
+| [<img alt="character-preparation.png" height="75" src="img/painting/process-1.jpg"/>](painting.md)                                    | [Painting](painting.md)               | Color your character to look just like in game.                                                 |
 
 ## Reference Directories
 

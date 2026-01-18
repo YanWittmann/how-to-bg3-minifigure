@@ -1,6 +1,6 @@
 # Chapter 4: 3D Printing
 
-[< Blender Cleanup](blender-cleanup.md) &bullet; [Main Page](readme.md)
+[< Blender Cleanup](blender-cleanup.md) &bullet; [Painting >](painting.md)
 
 We are almost there.
 You should now have a collection of objects that are:
@@ -89,4 +89,4 @@ I'm pretty happy with both of them.
 
 ---
 
-[< Blender Cleanup](blender-cleanup.md) &bullet; [Main Page](readme.md)
+[< Blender Cleanup](blender-cleanup.md) &bullet; [Painting >](painting.md)
